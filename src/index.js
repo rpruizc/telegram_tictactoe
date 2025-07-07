@@ -12,6 +12,14 @@ import { setupGameSocketHandlers } from './game/socket-handlers.js';
 // Load environment variables
 dotenv.config();
 
+// Debug environment variables
+console.log('🔍 Environment variables check:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+console.log('BOT_TOKEN:', process.env.BOT_TOKEN ? 'SET' : 'NOT SET');
+console.log('MINI_APP_URL:', process.env.MINI_APP_URL ? 'SET' : 'NOT SET');
+console.log('WEBHOOK_URL:', process.env.WEBHOOK_URL ? 'SET' : 'NOT SET');
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
