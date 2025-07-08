@@ -61,9 +61,12 @@ app.get('/game', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
+// Add webhook endpoint for Telegram
+app.use(bot.webhookCallback('/webhook'));
+
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🎮 Game available at http://localhost:${PORT}/game`);
+  console.log(`🎮 Game available at ${process.env.MINI_APP_URL || `http://localhost:${PORT}`}/game`);
   
   // Start the bot
   if (process.env.NODE_ENV === 'production' && process.env.WEBHOOK_URL) {
@@ -72,7 +75,7 @@ server.listen(PORT, () => {
     bot.launch({
       webhook: {
         domain: process.env.WEBHOOK_URL,
-        port: PORT
+        path: '/webhook'
       }
     });
   } else {
