@@ -54,7 +54,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Game endpoint for Mini App
+// Root endpoint - redirect to game (for Mini App)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/game.html'));
+});
+
+// Game endpoint for Mini App (alternative path)
 app.get('/game', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/game.html'));
 });
@@ -66,7 +71,8 @@ app.use(bot.webhookCallback('/webhook'));
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🎮 Game available at ${process.env.MINI_APP_URL || `http://localhost:${PORT}`}/game`);
+  const gameUrl = process.env.MINI_APP_URL || `http://localhost:${PORT}`;
+  console.log(`🎮 Game available at ${gameUrl}${gameUrl.includes('/game') ? '' : '/game'}`);
   
   // Start the bot
   if (process.env.NODE_ENV === 'production' && process.env.WEBHOOK_URL) {
