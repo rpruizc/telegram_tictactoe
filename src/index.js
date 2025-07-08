@@ -66,8 +66,9 @@ server.listen(PORT, () => {
   console.log(`🎮 Game available at http://localhost:${PORT}/game`);
   
   // Start the bot
-  if (process.env.NODE_ENV === 'production') {
-    // Use webhooks in production
+  if (process.env.NODE_ENV === 'production' && process.env.WEBHOOK_URL) {
+    // Use webhooks in production when webhook URL is available
+    console.log('🔗 Starting bot with webhook:', process.env.WEBHOOK_URL);
     bot.launch({
       webhook: {
         domain: process.env.WEBHOOK_URL,
@@ -75,7 +76,8 @@ server.listen(PORT, () => {
       }
     });
   } else {
-    // Use polling in development
+    // Use polling in development or when webhook URL is not set
+    console.log('🔄 Starting bot with polling (no webhook URL set)');
     bot.launch();
   }
   
